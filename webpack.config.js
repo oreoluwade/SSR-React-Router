@@ -4,6 +4,7 @@ const nodeExternals = require('webpack-node-externals');
 
 const browserConfig = {
   entry: './src/browser/index.js',
+  mode: "development",
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js',
@@ -27,6 +28,7 @@ const browserConfig = {
 
 const serverConfig = {
   entry: './src/server/index.js',
+  mode: "development",
   target: 'node',
   externals: [nodeExternals()],
   output: {

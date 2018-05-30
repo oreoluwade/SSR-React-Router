@@ -5,7 +5,6 @@ import { renderToString } from 'react-dom/server';
 import App from '../shared/App';
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 app.use(cors());
 
@@ -21,6 +20,7 @@ app.get('*', (req, res, next) => {
     <html>
       <head>
         <title>SSR with RR</title>
+        <script src='/bundle.js' defer></script>
       </head>
 
       <body>
@@ -30,6 +30,6 @@ app.get('*', (req, res, next) => {
   `);
 });
 
-app.listen(port, () => {
-  console.log(`Listening on ${port}...`);
+app.listen(3000, () => {
+  console.log('Listening on port 3000');
 });

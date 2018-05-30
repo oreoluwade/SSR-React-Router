@@ -2,9 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import { matchPath, StaticRouter } from 'react-router-dom';
 import serialize from 'serialize-javascript';
 import App from '../shared/App';
-import { fetchPopularRepos } from '../shared/api';
+import routes from '../shared/routes';
 
 const app = express();
 
@@ -13,10 +14,17 @@ app.use(cors());
 app.use(express.static('public'));
 
 app.get('*', (req, res, next) => {
-  fetchPopularRepos()
-  .then(data => {
+  const activeRoute = routes.find(route => matchPath(req.url, route)) || {}
+
+  const promise = activeRoute.fetchInitialData ? activeRoute.fetchInitialData(req.path) : Promise.resolve();
+
+  promise.then(data => {
+    const context = { data };
+
     const markup = renderToString(
-      <App data={data} />
+      <StaticRouter location={req.url} context={context}>
+        <App />
+      </StaticRouter>
     )
     res.send(`
       <!DOCTYPE html>
@@ -32,7 +40,7 @@ app.get('*', (req, res, next) => {
         </body>
       </html>
     `);
-  })
+  }).catch(next)
 });
 
 app.listen(3000, () => {

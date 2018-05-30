@@ -1,10 +1,24 @@
 {
-  "name": "SSR-React-Router",
+  "name": "ssr-react-router",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "start": "webpack -w & nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": "git@github.com:oaboluwarin/SSR-React-Router.git",
   "author": "oaboluwarin <oreoluwa.aboluwarin@andela.com>",
   "license": "MIT",
+  "description": "",
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
+  },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
